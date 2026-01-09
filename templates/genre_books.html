@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ genre }} Books</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>
+    .text-white{
+        color:rgb(0, 0, 0)
+    }
+</style>
+<body style="background-color:rgb(255, 255, 255)">
+
+    <nav class="navbar" style="background-color: lightblue; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
+        <a class="navbar-brand" href="#" style="font-weight: light;">My Book Recommender</a>
+        <ul style="list-style: none; margin: 0; padding: 0; display: flex; gap: 20px;">
+          <li><a href="/" style="text-decoration: none; color: blue;">Home</a></li>
+          <li><a href="/movies" style="text-decoration: none; color: blue;">Movies</a></li>
+          <li><a href="/contact" style="text-decoration: none; color: blue;">Contact</a></li>
+        </ul>
+      </nav>
+      
+      
+    
+
+    <div class="container">
+        <h1 class="mb-4">Books in "{{ genre }}" Genre</h1>
+        <a href="/" class="btn btn-light mt-4">← Back to Home</a>
+        <div class="row">
+            {% for index, row in books.iterrows() %}
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ row['Image-URL-M'] |safe}}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="Book Cover">
+
+
+
+                        <div class="card-body">
+                            <h5 class="card-title text-dark">{{ row['Book-Title'] }}</h5>
+                            <p class="card-text text-muted">By {{ row['Book-Author'] }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <a href="/" class="btn btn-light mt-4">← Back to Home</a>
+    </div>
+</body>
+</html>

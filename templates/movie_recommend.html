@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Recommendations</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body style="background-color:white;">
+
+<nav class="navbar navbar-light" style="background-color: lightblue;">
+    <a class="navbar-brand">My Movie Recommender</a>
+    <ul class="nav">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/filter_movies">Filter Movies</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <h1 class="my-4">🎬 Recommended Movies</h1>
+    <div class="row">
+        {% for index, row in movies.iterrows() %}
+        <div class="col-md-3 col-sm-6 mb-4">
+            <div class="card h-100">
+                <img src="{{ row['Poster'] }}" onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/placeholder1.png') }}';" class="card-img-top" style="height: 300px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ row['Title'] }}</h5>
+                    <p class="card-text"><strong>Genre: </strong>{{ row['Genre'] }}<br><strong>Director: </strong>{{ row['Director'] }}</p>
+                    <button class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#desc{{ index }}">View Description</button>
+                    <div id="desc{{ index }}" class="collapse mt-2">
+                        <p class="card-text">{{ row['Description'] }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% endfor %}
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

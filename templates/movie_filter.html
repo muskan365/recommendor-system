@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Filter Movies</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body style="background-color: white;">
+
+<nav class="navbar navbar-light" style="background-color: lightblue;">
+    <a class="navbar-brand" href="/">My Movie Recommender</a>
+    <a class="nav-link" href="/movies">All Movies</a></li>
+   
+</nav>
+
+<div class="container mt-4">
+    <h2 class="mb-4">🎬 Filter Movies by Genre and Director</h2>
+
+    <form method="POST" class="form-inline mb-4">
+        <label class="mr-2">Genre:</label>
+        <select name="genre" id="genre-dropdown" class="form-control mr-4">
+
+            {% for g in genres %}
+                <option value="{{ g }}" {% if selected_genre == g %}selected{% endif %}>{{ g }}</option>
+            {% endfor %}
+        </select>
+
+        <label class="mr-2">Director:</label>
+<select name="director" id="director-dropdown" class="form-control mr-4">
+    <option value="All">All</option>
+    {% for d in directors %}
+        <option value="{{ d }}" {% if selected_director == d %}selected{% endif %}>{{ d }}</option>
+    {% endfor %}
+</select>
+
+
+        <button type="submit" class="btn btn-primary">Apply Filter</button>
+    </form>
+
+    <div class="row">
+        {% for index, row in movies.iterrows() %}
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <img src="{{ row['Poster'] if row['Poster'] else url_for('static', filename='images/placeholder1.jpg') }}"
+                    onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/placeholder1.jpg') }}';"
+                    class="card-img-top"
+                    style="height: 300px; object-fit: cover;">
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ row['Title'] }}</h5>
+                    <p class="card-text"><strong>Genre:</strong> {{ row['Genre'] }}<br>
+                    <strong>Director:</strong> {{ row['Director'] }}</p>
+        
+                    <button class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#desc{{ index }}">View Description</button>
+                    <div id="desc{{ index }}" class="collapse mt-2">
+                        <p class="card-text">{{ row['Description'] }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% endfor %}
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#genre-dropdown').on('change', function() {
+            var selectedGenre = $(this).val();
+            $.ajax({
+                url: '/get_directors_by_genre',
+                type: 'GET',
+                data: { genre: selectedGenre },
+                success: function(data) {
+                    var directorSelect = $('#director-dropdown');
+                    directorSelect.empty();
+                    directorSelect.append('<option value="All">All</option>');
+                    data.directors.forEach(function(director) {
+                        directorSelect.append('<option value="' + director + '">' + director + '</option>');
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

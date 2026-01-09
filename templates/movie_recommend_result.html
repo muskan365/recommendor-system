@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Recommendations</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2 class="my-4">Movies similar to <strong>{{ base }}</strong>:</h2>
+    <div class="row">
+        {% for _, row in movies.iterrows() %}
+        <div class="col-md-3 col-sm-6 mb-4">
+            <div class="card h-100">
+                <img src="{{ row['Poster'] }}" onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/placeholder1.png') }}';" class="card-img-top" style="height: 300px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ row['Title'] }}</h5>
+                    <p class="card-text">Genre: {{ row['Genre'] }}<br>Director: {{ row['Director'] }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

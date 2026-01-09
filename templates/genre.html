@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recommendation System</title>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<style>
+    .text-white{
+        color:rgb(0, 0, 0)
+    }
+</style>
+<body style="background-color:rgb(255, 255, 255)">
+
+    <nav class="navbar" style="background-color:lightblue">
+        <a class="navbar-brand" style="font-size:25px">My Book Recommender</a>
+        <ul class="nav navbar-nav" style="font-size:17px">
+            <li><a href="/">Home</a></li>
+            <li><a href="/recommend">Recommend</a></li>
+            <li><a href="/genre">Genre</a></li>
+            <li><a class="nav-link" href="/movies">Movies</a></li>
+            <li class="nav-item"><a class="nav-link" href="/filter_movies">Filter Movies</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-white" style="font-size:50px">Recommend Books</h1>
+        
+                <!-- 📚 Browse by Genre -->
+                <form action="/genre_books" method="post">
+                    <select name="genre_input" class="form-control">
+                        {% for genre in genres %}
+                            <option value="{{ genre }}">{{ genre }}</option>
+                        {% endfor %}
+                    </select><br>
+                    <input type="submit" class="btn btn-lg btn-info" value="Browse by Genre">
+                </form>
+            </div>
+        </div>
+    </div>
+    
+
+            {% if data %}
+
+             {% for i in data %}
+                <div class="col-md-3 col-sm-6 mb-4" style="margin-top:50px">
+                    <div class="card">
+                        <div class="card-body">
+                            <img class="card-img-top" src="{{i[2]}}">
+                            <p class="text-white">{{i[0]}}</p>
+                            <h4 class="text-white">{{i[1]}}</h4>                                                             
+                        </div>
+                    </div>
+                </div>
+             {% endfor %}
+
+            {% endif %}
+
+
+
+
+        </div>
+    </div>
+
+</body>
+</html>
